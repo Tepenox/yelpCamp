@@ -54,7 +54,7 @@ app.post("/campgrounds", function (req, res) {
 
 //SHOW
 app.get("/campgrounds/:id", function (req, res) {
-    Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
+    Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) { //you find the campground by id then you populate it with comments so u can display them them  
         if (err) {
             res.redirect("/");
         } else {
