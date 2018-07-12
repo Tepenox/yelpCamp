@@ -53,11 +53,16 @@ app.get("/campgrounds", function (req, res) {
 
 
 })
+
+app.get("/campgrounds/new", function (req, res) { //be carefull here the SHOW route will be triguered first if we did putit above tis one so it s a good thing to keep it here
+    res.render("new");
+
+})
+
 app.post("/campgrounds", function (req, res) {
-    var newCampgroundName = req.body.name;
-    var newCampgroundImage = req.body.image;
-    var newCampground = { name: newCampgroundName, image: newCampgroundImage }
-    Campground.create(newCampground , function(err,newlyCreated){
+    var newCampground = req.body.campground;
+    
+    Campground.create(newCampground, function(err,newlyCreated){
         if (err) {
             console.log(err);
             
@@ -68,10 +73,6 @@ app.post("/campgrounds", function (req, res) {
     
 })
 
-app.get("/campgrounds/new", function (req, res) { //be carefull here the down route will be triguered first if we did putit above tis one so it s a good thing to keep it here
-    res.render("new");
-
-})
 
 app.get("/campgrounds/:id",function(req,res){
     Campground.findById(req.params.id , function (err,foundCampground){
