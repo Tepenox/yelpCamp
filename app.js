@@ -2,6 +2,10 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var passport = require("passport");
+var LocalStrategy = require("passport-local");
+var User = require("./models/user");
+var expressSession = require("express-session");
 var Campground = require("./models/campground");
 var Comment = require("./models/comment");
 var seedDB = require("./seeds");
@@ -11,14 +15,39 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+
+
 seedDB();
+
+//passport confugiration
+app.use(expressSession({
+    secret: "a password encryption this can be anything we want",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate())) // user.function() comes with passport-loca-mongoose
+passport.serializeUser(User.serializeUser());// user.function() comes with passport-loca-mongoose
+passport.deserializeUser(User.deserializeUser());// user.function() comes with passport-loca-mongoose
+
+
+
 
 
 
 app.get("/", function (req, res) {
     res.render("landing");
 });
+
+
+//==========
+//CAMPGROUND ROUTES
+//==========
+
 //INDEX
+
 app.get("/campgrounds", function (req, res) {
     Campground.find({}, function (err, allCampgrounds) {
         if (err) {
@@ -68,7 +97,7 @@ app.get("/campgrounds/:id", function (req, res) {
 //=============
 
 //NEW
-app.get("/campgrounds/:id/comments/new", function (req, res) {
+app.get("/campgrounds/:id/comments/new", isLoggedIn, function (req, res) {
     Campground.findById(req.params.id, function (err, foundCampground) {
 
         if (err) {
@@ -81,24 +110,76 @@ app.get("/campgrounds/:id/comments/new", function (req, res) {
 
 //CREAT
 
-app.post("/campgrounds/:id/comments", function (req, res) {
+app.post("/campgrounds/:id/comments", isLoggedIn, function (req, res) {
     Campground.findById(req.params.id, function (err, foundCampground) {
         if (err) {
             console.log(err);
             res.redirect("/campgrounds");
         } else {
-            Comment.create(req.body.comment , function(err,comment){
+            Comment.create(req.body.comment, function (err, comment) {
                 if (err) {
                     console.log(err);
-                }else{
+                } else {
                     foundCampground.comments.push(comment); // foundCampground and not Campground
                     foundCampground.save(); // important one i always forget it  :p
-                    res.redirect("/campgrounds/"+req.params.id);
+                    res.redirect("/campgrounds/" + req.params.id);
                 }
             })
-        }
-    })
+                }
+            })
 })
+
+//========
+// AUTH ROUTES
+//========
+
+//register routes
+
+app.get("/register", function (req, res) {
+    res.render("register")
+})
+
+app.post("/register", function (req, res) {
+    var newUser = { username: req.body.username }
+    User.register(newUser, req.body.password, function (err, user) {
+
+        if (err) {
+            console.log(err);
+            res.render("register");
+        } else {
+            passport.authenticate("local")(req, res, function () {
+                res.redirect("/campgrounds");
+            })
+        }
+    }); //provided by passport -local-mongoose 
+})
+
+//login routes
+
+app.get("/login", function (req, res) {
+    res.render("login");
+})
+
+app.post("/login", passport.authenticate("local", {
+    successRedirect: "/campgrounds",
+    failureRedirect: "/login"
+}), function (req, res) {
+    //a callback function
+    })
+
+//logout route
+app.get("/logout", function (req, res) {
+    req.logout();
+    res.redirect("/campgrounds");
+})
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
+
 
 
 app.listen(3000, function () {
