@@ -16,6 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;// pass this variable to all the route 
+    next(); //it s acts like a middlewar to all so we should call next bafter it
+});
 
 seedDB();
 
@@ -33,6 +37,12 @@ passport.serializeUser(User.serializeUser());// user.function() comes with passp
 passport.deserializeUser(User.deserializeUser());// user.function() comes with passport-loca-mongoose
 
 
+//this has to be after the passport confugiration i learned that the hard way
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;// pass this variable to all the route 
+    next(); //it s acts like a middlewar to all so we should call next bafter it
+
+});
 
 
 
@@ -55,6 +65,8 @@ app.get("/campgrounds", function (req, res) {
 
         } else {
             res.render("campgrounds/index", { campgrounds: allCampgrounds });
+            // console.log("from get route " + req.user);
+
         }
 
     })
@@ -125,8 +137,8 @@ app.post("/campgrounds/:id/comments", isLoggedIn, function (req, res) {
                     res.redirect("/campgrounds/" + req.params.id);
                 }
             })
-                }
-            })
+        }
+    })
 })
 
 //========
@@ -165,7 +177,7 @@ app.post("/login", passport.authenticate("local", {
     failureRedirect: "/login"
 }), function (req, res) {
     //a callback function
-    })
+})
 
 //logout route
 app.get("/logout", function (req, res) {
