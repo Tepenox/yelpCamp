@@ -22,19 +22,20 @@ router.get("/", function (req, res) {
 
 })
 //NEW
-router.get("/new", function (req, res) { //be carefull here the SHOW route will be triguered first if we did putit above tis one so it s a good thing to keep it here
+router.get("/new", isLoggedIn, function (req, res) { //be carefull here the SHOW route will be triguered first if we did putit above tis one so it s a good thing to keep it here
     res.render("campgrounds/new");
 
 })
 //CREAT
-router.post("/", function (req, res) {
-    var newCampground = req.body.campground;
-
-    Campground.create(newCampground, function (err, newlyCreated) {
+router.post("/", isLoggedIn, function (req, res) {
+    Campground.create(req.body.campground, function (err, newCampground) {
         if (err) {
             console.log(err);
-
         } else {
+            newCampground.author.id = req.user.id;
+            newCampground.author.username = req.user.username;
+            newCampground.save();
+            console.log("the new campgroud is" + newCampground);
             res.redirect("/campgrounds");
         }
     })
@@ -51,5 +52,13 @@ router.get("/:id", function (req, res) {
         }
     })
 })
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
+
 
 module.exports = router;
