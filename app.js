@@ -25,8 +25,14 @@ app.use(function (req, res, next) {
     res.locals.currentUser = req.user;// pass this variable to all the route 
     next(); //it s acts like a middlewar to all so we should call next bafter it
 });
-seedDB();
-
+// seedDB();
+Comment.remove({}, function (err, data) {
+    if (err) {
+        console.log("error removing comments");
+    } else {
+        console.log("removed all comments");
+    }
+})
 //passport confugiration
 app.use(expressSession({
     secret: "a password encryption this can be anything we want",
@@ -48,13 +54,13 @@ app.use(function (req, res, next) {
 });
 
 
-app.use("/",indexRoutes); //nothing commun between them
-app.use("/campgrounds" ,campgroundRoutes); // go to campgrounds routes and append /campground to routes so /campground <==>  /
+app.use("/", indexRoutes); //nothing commun between them
+app.use("/campgrounds", campgroundRoutes); // go to campgrounds routes and append /campground to routes so /campground <==>  /
 app.use("/campgrounds/:id/comments", commentRoutes); // in ordder to :id to be passed in you need to use {mergeParams :true} as an option inside comments.js routes file
 
 
 
 app.listen(3000, function () {
-    console.log("server is up and running");
+    console.log("Yelp Camp Server Is Up And Running...");
 
 })
