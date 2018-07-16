@@ -28,10 +28,13 @@
                                 <%= campground.author.username %>
                             </em>
                         </p>
-                        <a class="btn btn-sm btn-warning" href="/campgrounds/<%= campground.id %>/edit">Edit</a>
-                        <form id="delete-form" action="/campgrounds/<%= campground.id %>?_methode=DELETE" method="POST">
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        </form>
+                        <% if (currentUser && campground.author.id.equals(currentUser.id)){ %>
+                            <!-- DELETE AND UPDATE BUTTON -->
+                            <a class="btn btn-sm btn-warning" href="/campgrounds/<%= campground.id %>/edit">Edit</a>
+                            <form id="delete-form" action="/campgrounds/<%= campground.id %>?_methode=DELETE" method="POST">
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                            <% } %>
                     </div>
                 </div>
                 <div class="well">
