@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var methodeOverride = require("method-override");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var User = require("./models/user");
@@ -25,14 +26,15 @@ app.use(function (req, res, next) {
     res.locals.currentUser = req.user;// pass this variable to all the route 
     next(); //it s acts like a middlewar to all so we should call next bafter it
 });
+app.use(methodeOverride("_methode")); // tell methode override what to look for in the query
 // seedDB();
-Comment.remove({}, function (err, data) {
-    if (err) {
-        console.log("error removing comments");
-    } else {
-        console.log("removed all comments");
-    }
-})
+// Comment.remove({}, function (err, data) {
+//     if (err) {
+//         console.log("error removing comments");
+//     } else {
+//         console.log("removed all comments");
+//     }
+// })
 //passport confugiration
 app.use(expressSession({
     secret: "a password encryption this can be anything we want",
