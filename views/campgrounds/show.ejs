@@ -23,15 +23,20 @@
                         <p>
                             <%= campground.description %>
                         </p>
-                        <p> 
-                           <em> Submitted By <%= campground.author.username %> </em>
+                        <p>
+                            <em> Submitted By
+                                <%= campground.author.username %>
+                            </em>
                         </p>
-                        <a class="btn btn-warning" href="/campgrounds/<%= campground.id %>/edit">Edit</a>
+                        <a class="btn btn-sm btn-warning" href="/campgrounds/<%= campground.id %>/edit">Edit</a>
+                        <form id="delete-form" action="/campgrounds/<%= campground.id %>?_methode=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
                     </div>
                 </div>
                 <div class="well">
                     <div class="text-right">
-                        <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
+                        <a class="btn  btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
                     </div>
                     <hr>
                     <% campground.comments.forEach(function(comment){ %>

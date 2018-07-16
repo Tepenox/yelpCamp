@@ -31,7 +31,18 @@ router.put("/:id", function (req, res) {
 })
 
 
-
+//DESTROY
+router.delete("/:id", function (req, res) {
+    Campground.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
+            res.redirect("/campgrounds");
+            console.log("error deleting campground");
+            
+        } else { 
+            res.redirect("/campgrounds") 
+        }
+    })
+})
 
 
 
@@ -65,7 +76,6 @@ router.post("/", isLoggedIn, function (req, res) {
             newCampground.author.id = req.user.id;
             newCampground.author.username = req.user.username;
             newCampground.save();
-            console.log("the new campgroud is" + newCampground);
             res.redirect("/campgrounds");
         }
     })
