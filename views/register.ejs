@@ -1,15 +1,15 @@
 <% include ./partials/header.ejs %>
 
-<h1>Sign Up !</h1>
+    <h1>Sign Up !</h1>
 
+    <div class="container">
+        <form action="/register" method="POST">
 
-<form action="/register" method="POST">
+            <input type="text" name="username" placeholder="username">
+            <input type="password" name="password" placeholder="password">
+            <button>Sign Up</button>
 
-    <input type="text" name="username"  placeholder="username">
-    <input type="password" name="password"  placeholder="password">
-    <button>Sign Up</button>
+        </form>
+    </div>
 
-</form>
-
-
-<% include ./partials/footer.ejs %>
+    <% include ./partials/footer.ejs %>
