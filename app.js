@@ -7,6 +7,7 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var User = require("./models/user");
 var expressSession = require("express-session");
+var flash = require("connect-flash");
 var Campground = require("./models/campground");
 var Comment = require("./models/comment");
 var seedDB = require("./seeds");
@@ -27,6 +28,7 @@ app.use(function (req, res, next) {
     next(); //it s acts like a middlewar to all so we should call next bafter it
 });
 app.use(methodeOverride("_methode")); // tell methode override what to look for in the query
+app.use(flash());
 // seedDB();
 // Comment.remove({}, function (err, data) {
 //     if (err) {
@@ -52,6 +54,9 @@ passport.deserializeUser(User.deserializeUser());// user.function() comes with p
 //this has to be after the passport confugiration i learned that the hard way
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;// pass this variable to all the route 
+    res.locals.error = req.flash("error"); // rather than passing it to evry route
+    res.locals.success = req.flash("success");
+    res.locals.warning = req.flash("warning"); 
     next(); //it s acts like a middlewar to all so we should call next bafter it
 });
 

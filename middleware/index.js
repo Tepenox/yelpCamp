@@ -12,6 +12,7 @@ middlewareObj.checkCampgroundOwnerShip = function (req, res, next) {
     if (req.isAuthenticated()) {
         Campground.findById(req.params.id, function (err, foundCampground) {
             if (err) {
+                req.flash("error", "Campground not Found");
                 res.redirect("back");
             } else {
                 // does the usrerown the campground ??
@@ -21,11 +22,13 @@ middlewareObj.checkCampgroundOwnerShip = function (req, res, next) {
                 if (foundCampground.author.id.equals(req.user.id)) {
                     next();
                 } else {
+                    req.flash("error", "you don't have permession to do that")
                     res.redirect("back")
                 }
             }
         })
     } else {
+        req.flash("error", "You need to be logged in First!");        
         res.redirect("back"); //return the user to the previous page they were in
     }
 }
@@ -47,11 +50,13 @@ middlewareObj.checkCommentOwnerShip = function (req, res, next) {
                 if (foundComment.author.id.equals(req.user.id)) { //thta s why we use equals here
                     next();
                 } else {
+                    req.flash("error","you don't have permession to do that")
                     res.redirect("back")
                 }
             }
         })
     } else {
+        req.flash("error", "You need to be logged in First!");        
         res.redirect("back"); //return the user to the previous page they were in
     }
 }
@@ -60,6 +65,7 @@ middlewareObj.isLoggedIn = function (req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
+    req.flash("error","You need to be logged in First!");//adding this line won t display anything imediatly and we HACE TO put it before we redirect....it s one time thing
     res.redirect("/login"); 
 }
 

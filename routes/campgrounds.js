@@ -34,7 +34,7 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            
+
             newCampground.author.id = req.user.id;
             newCampground.author.username = req.user.username;
             newCampground.save();
@@ -70,6 +70,7 @@ router.put("/:id", middleware.checkCampgroundOwnerShip, function (req, res) {
         if (err) {
             res.redirect("/campgrounds");
         } else {
+            req.flash("success", "Changes has been saved");
             res.redirect("/campgrounds/" + req.params.id);
         }
     })
@@ -84,10 +85,12 @@ router.delete("/:id", middleware.checkCampgroundOwnerShip, function (req, res) {
             console.log("error deleting campground");
 
         } else {
+            req.flash("warning", "Commment deleted")
             res.redirect("/campgrounds")
         }
     })
 })
+
 
 
 
