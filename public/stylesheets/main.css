@@ -1,16 +1,49 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: rgb(202, 202, 202);
+}
+
 .thumbnail img {
     width: 100%;
-
 }
 
-.removePadding{
+.removePadding {
     padding: 0;
 }
+p.lead {
+    color: black;
+}
 
-.delete-form{
+.delete-form {
     display: inline;
 }
 
-h1{
+h4 {
+    color: #1f1e1e;
+}
+
+h1 {
     text-align: center;
+}
+
+h1 i {
+    font-size: 1em;
+    margin-right: 10px;
+}
+
+#description {
+    text-align: center;
+}
+
+/* to change the nav bar header color */
+
+.navbar-inverse .navbar-brand {
+    color: #e8e8e8;
+}
+
+/* to change the color of login and logout */
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #e8e8e8;
 }

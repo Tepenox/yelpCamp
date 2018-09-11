@@ -17,15 +17,21 @@
             </div>
             <% } %>
                 <% if(success && success.length > 0){ %>
-                    <div class="alert alert-success" role="alert">
+                    <div class="alert alert-succcess" role="alert">
                         <%= success %>
                     </div>
                     <% } %>
+
+                    <% if(warning && warning.length > 0){ %>
+                        <div class="alert alert-warning" role="alert">
+                            <%= warning %>
+                        </div>
+                        <% } %>
     </div>
 
     <div id="landing-header">
         <h1>Welcome to YelpCamp!</h1>
-        <a href="/campgrounds" class="btn btn-lg btn-success">View All Campgrounds</a>
+        <a href="/campgrounds" class="btn btn-lg btn-primary">View All Campgrounds</a>
     </div>
 
     <ul class="slideshow">
