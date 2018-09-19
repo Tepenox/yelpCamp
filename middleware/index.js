@@ -65,7 +65,7 @@ middlewareObj.isLoggedIn = function (req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    req.flash("error","You need to be logged in First!");//adding this line won t display anything imediatly and we HACE TO put it before we redirect....it s one time thing
+    req.flash("error","You need to be logged in First!");//adding this line won t display anything imediatly untill the  next page and we HACE TO put it before we redirect....it s one time thing
     res.redirect("/login"); 
 }
 

@@ -46,7 +46,8 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
 
 //SHOW
 router.get("/:id", function (req, res) {
-    Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) { //you find the campground by id then you populate it with comments so u can display them them  
+    Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) { //you find the campground by id (without populate only the id of comments exists inside the CAmpground obejct ) then you populate it with comments so u can display them them
+
         if (err) {
             res.redirect("/");
         } else {

@@ -54,7 +54,7 @@ passport.deserializeUser(User.deserializeUser());// user.function() comes with p
 //this has to be after the passport confugiration i learned that the hard way
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;// pass this variable to all the route 
-    res.locals.error = req.flash("error"); // rather than passing it to evry route
+    res.locals.error = req.flash("error"); // rather than passing it to evry routem so we can use it insdie the templates.
     res.locals.success = req.flash("success");
     res.locals.warning = req.flash("warning"); 
     next(); //it s acts like a middlewar to all so we should call next bafter it
