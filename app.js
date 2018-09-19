@@ -5,9 +5,10 @@ var mongoose = require("mongoose");
 var methodeOverride = require("method-override");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
-var User = require("./models/user");
 var expressSession = require("express-session");
 var flash = require("connect-flash");
+var moment =  require("moment")
+var User = require("./models/user");
 var Campground = require("./models/campground");
 var Comment = require("./models/comment");
 var seedDB = require("./seeds");
@@ -57,6 +58,7 @@ app.use(function (req, res, next) {
     res.locals.error = req.flash("error"); // rather than passing it to evry routem so we can use it insdie the templates.
     res.locals.success = req.flash("success");
     res.locals.warning = req.flash("warning"); 
+    res.locals.moment = moment;
     next(); //it s acts like a middlewar to all so we should call next bafter it
 });
 
