@@ -21,6 +21,7 @@ router.get("/register", function (req, res) {
 
 router.post("/register", function (req, res) {
     var newUser = { username: req.body.username }
+    // eval(require("locus")); // locus let s you stop the code and evaluate it 
     User.register(newUser, req.body.password, function (err, user) {
 
         if (err) {
@@ -47,7 +48,7 @@ router.post("/login", function (req, res, next) {
     passport.authenticate("local", {
         successRedirect: "/campgrounds",
         failureRedirect: "/login",
-        failureFlash: true,
+        failureFlash: true, // pass the error message to the flash automaticly u can use a custom one
         successFlash: "Welcome Back, " + req.body.username + " !"
     })(req, res);
 });

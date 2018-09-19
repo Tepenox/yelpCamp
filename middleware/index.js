@@ -19,7 +19,7 @@ middlewareObj.checkCampgroundOwnerShip = function (req, res, next) {
 
                 //foundCampground.author.id is a mongoose object
                 // req.user.id is a string
-                if (foundCampground.author.id.equals(req.user.id)) {
+                if (foundCampground.author.id.equals(req.user.id) || req.user.isAdmin) {
                     next();
                 } else {
                     req.flash("error", "you don't have permession to do that")
@@ -47,7 +47,7 @@ middlewareObj.checkCommentOwnerShip = function (req, res, next) {
 
                 //foundComment.author.id is a mongoose object
                 // req.user.id is a string
-                if (foundComment.author.id.equals(req.user.id)) { //thta s why we use equals here
+                if (foundComment.author.id.equals(req.user.id) || req.user.isAdmin) { //thta s why we use equals here
                     next();
                 } else {
                     req.flash("error","you don't have permession to do that")
