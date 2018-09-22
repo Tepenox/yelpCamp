@@ -71,5 +71,5 @@ app.use("/campgrounds/:id/comments", commentRoutes); // in ordder to :id to be p
 
 app.listen(3000, function () {
     console.log("Yelp Camp Server Is Up And Running...");
-
+    
 })

@@ -90,7 +90,7 @@ body {
     }
 }
 
-/* Older browser support - .no-cssanimations class added by modernizr */
+ /* Older browser support  */
 
 .no-cssanimations .slideshow li {
     opacity: 1;
