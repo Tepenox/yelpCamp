@@ -3,7 +3,8 @@ var mongoose = require("mongoose");
 var campgroundSchema = new mongoose.Schema({
 
     name: String,
-    image: String,
+    image: String, //image url
+    imageId:String, // in cloudinary
     price :String,
     description : String,
     createdAt:{
