@@ -1,2 +1,3 @@
 # yelp-camp
-a project from the complete web devoleper boot camp by colt steel
+my first complete project of a dynamic website using node js 
+guided by colt steel from the colpete web developer bootcamp from udemy.com
